@@ -45,8 +45,9 @@ telco-churn-prediction-app/
 ├── deployment/               # Streamlit application
 ├── docs/                     # Documentation
 ├── requirements/             # Dependencies
+├── preprocessing/            # Preprocess
 ├── README.md                 # Project documentation
-└── .gitignore               # Git ignore file
+└── .gitignore                # Git ignore file
 ```
 
 ## 🎯 Usage
