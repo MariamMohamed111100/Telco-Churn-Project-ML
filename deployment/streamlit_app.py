@@ -65,10 +65,10 @@ st.markdown("""
 @st.cache_resource
 def load_model_components():
     try:
-        model = joblib.load('models/logistic_regression_smote.pkl')
-        scaler = joblib.load('models/scaler.pkl')
-        label_encoders = joblib.load('models/label_encoders.pkl')
-        feature_columns = joblib.load('models/feature_columns.pkl')
+        model = joblib.load('../models/logistic_regression_smote.pkl')
+        scaler = joblib.load('../models/scaler.pkl')
+        label_encoders = joblib.load('../models/label_encoders.pkl')
+        feature_columns = joblib.load('../models/feature_columns.pkl')
         return model, scaler, label_encoders, feature_columns
     except Exception as e:
         st.error(f"Error loading model: {str(e)}")
