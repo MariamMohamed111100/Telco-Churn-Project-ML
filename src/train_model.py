@@ -9,10 +9,10 @@ from sklearn.metrics import recall_score, precision_score, f1_score, classificat
 from imblearn.over_sampling import SMOTE
 
 # Configure paths
-DATA_PATH = os.path.join('Data', 'WA_Fn-UseC_-Telco-Customer-Churn.csv')
-MODEL_PATH = 'logistic_regression_smote.pkl'
-SCALER_PATH = 'scaler.pkl'
-ENCODER_PATH = 'label_encoders.pkl'
+DATA_PATH = os.path.join('..', 'data', 'cleaned_telco_data.csv')
+MODEL_PATH = '../models/logistic_regression_smote.pkl'
+SCALER_PATH = '../models/scaler.pkl'
+ENCODER_PATH = '../models/label_encoders.pkl'
 
 def train_and_save_model():
     """Train model and save all components"""
@@ -86,7 +86,7 @@ def train_and_save_model():
     joblib.dump(label_encoders, ENCODER_PATH)
     
     # Save feature columns
-    joblib.dump(X.columns.tolist(), 'feature_columns.pkl')
+    joblib.dump(X.columns.tolist(), '../models/feature_columns.pkl')
     
     print("✅ Model and components saved successfully!")
     print(f"   Model: {MODEL_PATH}")

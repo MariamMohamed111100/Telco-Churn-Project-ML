@@ -108,7 +108,6 @@ if page == "Prediction":
         multiple_lines = st.selectbox("Multiple Lines", ["No", "Yes", "No phone service"], key="lines")
         internet_service = st.selectbox("Internet Service", ["DSL", "Fiber optic", "No"], key="internet")
         
-        # Internet services
         online_security = st.selectbox("Online Security", ["No", "Yes", "No internet service"], key="security")
         online_backup = st.selectbox("Online Backup", ["No", "Yes", "No internet service"], key="backup")
         device_protection = st.selectbox("Device Protection", ["No", "Yes", "No internet service"], key="protection")
@@ -125,7 +124,6 @@ if page == "Prediction":
             "Electronic check", "Mailed check", "Bank transfer (automatic)", "Credit card (automatic)"
         ], key="payment")
     
-    # Numeric inputs in a separate section
     st.markdown("### 💳 Financial Information")
     col1, col2 = st.columns(2)
     with col1:
@@ -164,15 +162,21 @@ if page == "Prediction":
                 'TotalCharges': total_charges
             }
             
-            # Create DataFrame and predict
+            # Create DataFrame and ensure all features exist
             input_df = pd.DataFrame([input_data])
+            for col in feature_columns:
+                if col not in input_df.columns:
+                    input_df[col] = 0  # default value if missing
+            input_df = input_df[feature_columns]  # enforce correct order
+            input_df = input_df.astype(float)      # ensure numeric types
+            
+            # Scale and predict - use DataFrame directly to preserve feature names
             input_scaled = scaler.transform(input_df)
             prediction_proba = model.predict_proba(input_scaled)[0, 1]
             prediction = "Will Stay" if prediction_proba < 0.05 else "Will Leave"
             
             # Display results
             col1, col2, col3 = st.columns(3)
-            
             with col1:
                 st.markdown(f"""
                 <div class="prediction-card">
@@ -199,7 +203,7 @@ if page == "Prediction":
                 </div>
                 """, unsafe_allow_html=True)
             
-            # Visual gauge
+            # Gauge chart
             fig = go.Figure(go.Indicator(
                 mode="gauge+number+delta",
                 value=prediction_proba * 100,
@@ -213,7 +217,6 @@ if page == "Prediction":
                            {'range': [20, 100], 'color': "red"}],
                        'threshold': {'line': {'color': "red", 'width': 4},
                                     'thickness': 0.75, 'value': 5}}))
-            
             st.plotly_chart(fig, use_container_width=True)
             
         else:
